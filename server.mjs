@@ -230,9 +230,13 @@ if (discordAlerter.isConfigured) {
 const app = express();
 app.use(express.static(join(ROOT, 'dashboard/public')));
 
-// Serve jarvis.html as the root page
+// Serve loading page until first sweep completes, then the dashboard
 app.get('/', (req, res) => {
-  res.sendFile(join(ROOT, 'dashboard/public/jarvis.html'));
+  if (!currentData) {
+    res.sendFile(join(ROOT, 'dashboard/public/loading.html'));
+  } else {
+    res.sendFile(join(ROOT, 'dashboard/public/jarvis.html'));
+  }
 });
 
 // API: current data
